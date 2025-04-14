@@ -2,46 +2,37 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro
+# Introducción
 
-Let's discover **Docusaurus in less than 5 minutes**.
+Antes de empezar a resolver el cubo de Rubik, es importante conocer las partes del cubo y las notaciones que se utilizan para describir las movimientos de las caras.
 
-## Getting Started
+## Partes del cubo
+El cubo de Rubik está formado por 26 piezas, que se pueden clasificar en tres tipos:
+- 6 piezas centrales o **centros**: son las piezas que forman las caras del cubo y no se pueden mover.
+- 12 piezas de los bordes o **aristas**: son las piezas que forman los bordes del cubo y se pueden mover.
+- 8 piezas de los vértices o **esquinas**: son las piezas que forman los vértices del cubo y se pueden mover.
+![Partes del cubo](./img/partes.png)
 
-Get started by **creating a new site**.
+Por otra parte, el cubo se puede dividir por capas de la siguiente manera:
+![Capas del cubo](./img/partes2.png)
 
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
+## Movimientos
 
-### What you'll need
+Se considera movimiento del cubo a un giro en sentido horario o antihorario de una de sus caras. Para la notación de los mismos, se debe elegir una cara como cara frontal de manera que esta sea la cara que tienes delante cuando estás mirando al cubo.
 
-- [Node.js](https://nodejs.org/en/download/) version 18.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
+Los giros en sentido horario se denotan con las letras mayúsculas de su nombre en inglés:
+- F (front): cara frontal
+- R (right): cara a la derecha de la cara frontal
+- L (left): cara a la izquierda de la cara frontal
+- B (back): cara opuesta a la cara frontal
+- U (up): cara superior
+- D (down): cara inferior
 
-## Generate a new site
+![Movimientos](./img/movs.png)
 
-Generate a new Docusaurus site using the **classic template**.
+Por otra parte, para los giros en sentido antihorario se emplean las mismas letras en mayúsculas pero con un apóstrofe (') para diferenciarse de las anteriores.
+![Movimientos2](./img/movs2.png)
 
-The classic template will automatically be added to your project after you run the command:
+Cuando se hace 2 veces el mismo movimiento se denota con el número dos delante de la letra que hace referencia al movimiento. Una secuencia ordenada de movimientos se llama algoritmo. Por ejemplo, 2F que significa hacer 2 veces F o F', ya que se llega al mismo resultado.
 
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+Definida la notación, se puede empezar a resolver el cubo.

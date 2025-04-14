@@ -1,50 +1,56 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import Link from '@docusaurus/Link';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: '¡Juega!',
+    image: require('@site/static/img/micubo-bg.png').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Podrás experimentar con un Cubo de Rubik virtual: probar movimientos, ver su efecto en tiempo real 
+        y comprobar algoritmos que hayas aprendido. ¡Ideal para poner en práctica lo que vas aprendiendo!
       </>
     ),
+    link: '/juego',
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Tutorial',
+    image: require('@site/static/img/tutorial.png').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Tanto si nunca has tocado un cubo como si ya conoces lo básico, aquí aprenderás una forma clara 
+        y estructurada de resolverlo, con métodos pensados para principiantes.
       </>
     ),
+    link: '/docs/intro',
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: 'Base matemática',
+    image: require('@site/static/img/basem.png').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Exploraremos los fundamentos algebraicos y combinatorios que explican cómo funciona el cubo, 
+        desde los grupos de permutaciones hasta la notación de movimientos.
       </>
     ),
+    link: '/base_mate',
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({image, title, description, link}) {
   return (
     <div className={clsx('col col--4')}>
+      <Link to={link} className={styles.featureLink}>
       <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
+        <img src={image} className={styles.featureSvg} alt={title} />
       </div>
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
       </div>
+      </Link>
     </div>
   );
 }

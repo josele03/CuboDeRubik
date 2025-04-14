@@ -45,8 +45,8 @@ const config = {
           sidebarPath: './sidebars.js',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          //editUrl:
+            //'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
@@ -56,8 +56,8 @@ const config = {
           },
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          //editUrl:
+            //'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -76,24 +76,22 @@ const config = {
       // Replace with your project's social card
       image: 'img/micubo-bg.png',
       navbar: {
-        title: 'My Site',
+        title: 'Inicio',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'Mi Logo',
           src: 'img/micubo-bg.png',
         },
         items: [
+          {to: '/juego', label: '¡Juega!', position: 'left'},
           {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/blog', label: 'Blog', position: 'left'},
-          {
-            href: 'https://github.com/facebook/docusaurus',
-            label: 'GitHub',
-            position: 'right',
-          },
+          {to: '/base_mate', label: 'Base Matemática', position: 'left'},
+          {to: '/login/registro', label: 'Registrarse', position: 'right'},
+          {to: '/login/inicio-sesion', label: 'Iniciar sesión', position: 'right'},
         ],
       },
       footer: {
@@ -139,7 +137,7 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Trabjo de Fin de Grado, Inc. Built with Docusaurus. José Márquez Carqués.`,
       },
       prism: {
         theme: prismThemes.github,
