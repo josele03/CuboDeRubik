@@ -1,3 +1,4 @@
+```powershell
 npx create-docusaurus@latest my-website classic
 cd my-website
 (local)
