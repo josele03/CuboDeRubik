@@ -98,28 +98,36 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Contenido',
             items: [
+              {
+                label: 'Base Matemática',
+                to: '/base_mate',
+              },
               {
                 label: 'Tutorial',
                 to: '/docs/intro',
               },
+              {
+                label: 'Juego',
+                to: '/juego',
+              },
             ],
           },
           {
-            title: 'Community',
+            title: 'Sobre mí',
             items: [
               {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'Github',
+                href: 'https://github.com/josele03/CuboDeRubik',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'LinkedIn',
+                href: 'https://www.linkedin.com/in/jose-marquez-carques',
               },
               {
-                label: 'X',
-                href: 'https://x.com/docusaurus',
+                label: 'Instagram',
+                href: 'https://www.instagram.com/josele_03',
               },
             ],
           },
