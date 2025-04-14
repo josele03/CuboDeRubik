@@ -15,7 +15,7 @@ const config = {
   favicon: 'img/micubo-bg.png',
 
   // Set the production url of your site here
-  url: 'https://josele03.github.io./',
+  url: 'https://josele03.github.io/',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/CuboDeRubik/',
@@ -32,8 +32,8 @@ const config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'en',
-    locales: ['en'],
+    defaultLocale: 'es',
+    locales: ['es'],
   },
 
   presets: [
