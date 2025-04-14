@@ -124,15 +124,15 @@ const config = {
             ],
           },
           {
-            title: 'More',
+            title: 'Créditos',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
+                label: 'Plantilla',
+                href: 'https://github.com/facebook/docusaurus'
               },
               {
-                label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                label: 'Modelo interactivo del Cubo de Rubik',
+                href: 'https://github.com/JithuTholoor/RubixCube',
               },
             ],
           },

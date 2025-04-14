@@ -1,11 +1,26 @@
 /*
- * Basado en código bajo licencia Apache 2.0.
- * Archivo original: parte de mi TFG.
+ * Copyright 2025 José Márquez Carqués
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * This file is a modified version of a file originally from the
+ * "RubixCube" project, licensed under the Apache License 2.0.
  */
- body, html {
+
+ body, html{
     margin: 0;
     padding: 0;
-    overflow-x: hidden; /* Previene scroll horizontal */
+    overflow-x: hidden; 
     width: 100%;
 }
 
@@ -48,7 +63,6 @@
     position: absolute;
     box-sizing: border-box;
     background:rgb(56, 56, 56);
-    overflow-x: hidden;
 }
 
 .cube .face.front {
@@ -79,64 +93,6 @@
     transform-origin: center right;
 }
 
-.github-fork-ribbon {
-    background-attachment:scroll;
-    background-clip:border-box;
-    background-color:rgba(0, 0, 0, 0);
-    background-origin:padding-box;
-    background-position-x:0px;
-    background-position-y:0px;
-    background-size:auto;
-    color:rgb(204, 0, 0);
-    cursor:pointer;
-    display:block;
-    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size:13px;
-    font-weight:400;
-    position:absolute;
-    right:0px;
-    text-decoration-color:rgb(204, 0, 0);
-    text-decoration-line:none;
-    text-decoration-style:solid;
-    top:0px;
-    z-index:9999;
-    text-indent: -9999px;
-}
-
-.github-fork-ribbon:before{
-    content: "";
-    padding: .38em 0;
-    background-color: #f80;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-    box-shadow: 0 0.15em 0.23em 0 rgba(0, 0, 0, 0.5);
-}
-.github-fork-ribbon:after{
-    content: attr(data-ribbon);
-    color: #fff;
-    font: 700 1em "Helvetica Neue", Helvetica, Arial, sans-serif;
-    line-height: 1.54em;
-    text-decoration: none;
-    text-shadow: 0 -0.08em rgba(0, 0, 0, 0.5);
-    text-align: center;
-    text-indent: 0;
-    padding: .15em 0;
-    margin: .15em 0;
-    border-width: .08em 0;
-    border-style: dotted;
-    border-color: #fff;
-    border-color: rgba(255, 255, 255, 0.7);
-}
-
-.github-fork-ribbon:before,.github-fork-ribbon:after{
-    position: absolute;
-    display: block;
-    width: 15.38em;
-    height: 1.54em;
-    top: 3.23em;
-    right: -3.23em;
-    transform: rotate(45deg);
-    box-sizing: content-box;
-}
 
 .footer-juego {
     position: relative;

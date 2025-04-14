@@ -17,7 +17,7 @@ const FeatureList = [
   },
   {
     title: 'Tutorial',
-    image: require('@site/static/img/tutorial.png').default,
+    image: require('@site/static/img/tutorial-bg.png').default,
     description: (
       <>
         Tanto si nunca has tocado un cubo como si ya conoces lo básico, aquí aprenderás una forma clara 
@@ -28,7 +28,7 @@ const FeatureList = [
   },
   {
     title: 'Base matemática',
-    image: require('@site/static/img/basem.png').default,
+    image: require('@site/static/img/maths-bg.png').default,
     description: (
       <>
         Exploraremos los fundamentos algebraicos y combinatorios que explican cómo funciona el cubo, 
