@@ -19,16 +19,13 @@
 
 import React from 'react';
 import Layout from '@theme/Layout';
-import AppRubix from '../components/Rubix/AppRubix.js';
-import '../css/rubix.css'; 
+import Juego from '../components/Rubik/juego';
 
-export default function RubixCubePage() {
+export default function JuegoPage() {
   return (
-    <Layout
-      title="RubixCube"
-      description="Pantalla interactiva del Cubo de Rubik">
+    <Layout title="Rubik" description="Cubo de Rubik interactivo">
       <main>
-        <AppRubix /> {/* Renderiza el modelo interactivo */}
+        <Juego />
       </main>
     </Layout>
   );
