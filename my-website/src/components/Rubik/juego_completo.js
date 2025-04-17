@@ -70,8 +70,8 @@ const Juego = () => {
     sceneRef.current = scene;
     scene.background = new THREE.Color(colorMode === 'dark' ? '#111111' : '#ffffff');
 
-    
-    
+
+
 
 
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
@@ -190,6 +190,17 @@ const Juego = () => {
     }, 750);
   };
 
+  const resetCubo = () => {
+    stopShuffle();
+    const scene = sceneRef.current;
+    if (cubeGroup.current) {
+      scene.remove(cubeGroup.current);
+      cubeRefs.current.length = 0; // limpia las referencias antiguas
+      cubeGroup.current = crearCuboCompleto(1, spacing, colors, cubeRefs.current);
+      scene.add(cubeGroup.current);
+    }
+  };
+
 
   const colorToCss = hex => `#${hex.toString(16).padStart(6, '0')}`;
   const buttonStyle = {
@@ -226,8 +237,8 @@ const Juego = () => {
 
       <div style={{
         position: 'absolute',
-        top: '45%',
-        right: '20px',
+        top: '50%',
+        right: '50px',
         transform: 'translateY(-50%)',
         display: 'flex',
         flexDirection: 'column',
@@ -272,7 +283,7 @@ const Juego = () => {
         <button
           onClick={shuffle}
           style={{
-            marginTop: '2rem',
+            marginTop: '1rem',
             padding: '1rem',
             fontSize: '16px',
             border: `2px solid ${colorMode === 'dark' ? 'white' : 'black'}`,
@@ -284,6 +295,22 @@ const Juego = () => {
         >
           {shuffling ? "Detener" : "Revolver Cubo"}
         </button>
+
+        <button
+          onClick={resetCubo}
+          style={{
+            padding: '1rem',
+            fontSize: '16px',
+            border: `2px solid ${colorMode === 'dark' ? 'white' : 'black'}`,
+            borderRadius: '12px',
+            backgroundColor: 'transparent',
+            color: colorMode === 'dark' ? 'white' : 'black',
+            cursor: 'pointer'
+          }}
+        >
+          Reiniciar
+        </button>
+
 
       </div>
     </div>
