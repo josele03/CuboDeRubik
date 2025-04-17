@@ -165,13 +165,24 @@ const Juego = () => {
 
       <div style={{
         position: 'absolute',
-        top: '50%',
+        top: '40%',
         right: '20px',
         transform: 'translateY(-50%)',
         display: 'flex',
         flexDirection: 'column',
         gap: '1rem',
       }}>
+        <p style={{
+          margin: 0,
+          textAlign: 'center',
+          fontSize: '16px',
+          width: 'fit-content',
+          alignSelf: 'center'
+        }}>
+          Utiliza estos botones para<br />
+          girar las caras del cubo
+        </p>
+
 
         {[
           ['z', 2, colors.front],
