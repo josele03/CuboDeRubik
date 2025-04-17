@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useColorMode } from '@docusaurus/theme-common';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
 
@@ -46,6 +47,7 @@ const crearCuboCompleto = (size, spacing, colors, cubeRefs) => {
 };
 
 const Juego = () => {
+  const { colorMode } = useColorMode();
   const containerRef = useRef();
   const cubeRefs = useRef([]);
   const cubeGroup = useRef();
@@ -65,7 +67,11 @@ const Juego = () => {
     const container = containerRef.current;
     const scene = new THREE.Scene();
     sceneRef.current = scene;
-    scene.background = new THREE.Color('#ffffff');
+    scene.background = new THREE.Color(colorMode === 'dark' ? '#111111' : '#ffffff');
+
+    
+    
+
 
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.set(0, 0, 6);
@@ -140,7 +146,7 @@ const Juego = () => {
     width: '60px',
     height: '60px',
     backgroundColor: 'white',
-    border: '2px solid black',
+    border: `2px solid ${colorMode === 'dark' ? 'white' : 'black'}`,
     borderRadius: '16px',
     display: 'flex',
     alignItems: 'center',
@@ -149,6 +155,11 @@ const Juego = () => {
     transition: 'transform 0.2s',
     fontSize: '28px'
   };
+  useEffect(() => {
+    if (sceneRef.current) {
+      sceneRef.current.background = new THREE.Color(colorMode === 'dark' ? '#111111' : '#ffffff');
+    }
+  }, [colorMode]);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100vh' }}>
@@ -165,7 +176,7 @@ const Juego = () => {
 
       <div style={{
         position: 'absolute',
-        top: '40%',
+        top: '45%',
         right: '20px',
         transform: 'translateY(-50%)',
         display: 'flex',
@@ -190,9 +201,9 @@ const Juego = () => {
           ['y', 2, colors.top],
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
-            <button onClick={() => rotarCara(axis, index, false)} style={buttonStyle}>↺</button>
+            <button onClick={() => rotarCara(axis, index, false)} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
             <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
-            <button onClick={() => rotarCara(axis, index, true)} style={buttonStyle}>↻</button>
+            <button onClick={() => rotarCara(axis, index, true)} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
           </div>
         ))}
 
@@ -202,9 +213,9 @@ const Juego = () => {
           ['z', 0, colors.back]
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
-            <button onClick={() => rotarCara(axis, index, true)} style={buttonStyle}>↺</button>
+            <button onClick={() => rotarCara(axis, index, true)} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
             <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
-            <button onClick={() => rotarCara(axis, index, false)} style={buttonStyle}>↻</button>
+            <button onClick={() => rotarCara(axis, index, false)} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
           </div>
         ))}
       </div>
@@ -213,3 +224,5 @@ const Juego = () => {
 };
 
 export default Juego;
+
+
