@@ -49,6 +49,7 @@ const crearCuboCompleto = (size, spacing, colors, cubeRefs) => {
 const Juego = () => {
   const [shuffling, setShuffling] = useState(false);
   const { colorMode } = useColorMode();
+  if (!colorMode) return null;
   const containerRef = useRef();
   const cubeRefs = useRef([]);
   const cubeGroup = useRef();
