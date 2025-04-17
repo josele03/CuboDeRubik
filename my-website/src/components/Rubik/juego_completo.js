@@ -163,28 +163,37 @@ const Juego = () => {
         onMouseUp={(e) => (e.currentTarget.style.cursor = 'grab')}
       />
 
-<div style={{
-  position: 'absolute',
-  top: '50%',
-  right: '20px',
-  transform: 'translateY(-50%)',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-}}>
+      <div style={{
+        position: 'absolute',
+        top: '50%',
+        right: '20px',
+        transform: 'translateY(-50%)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '1rem',
+      }}>
 
         {[
           ['z', 2, colors.front],
           ['x', 2, colors.right],
           ['y', 2, colors.top],
-          ['x', 0, colors.left],
-          ['y', 0, colors.bottom],
-          ['z', 0, colors.back]
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
             <button onClick={() => rotarCara(axis, index, false)} style={buttonStyle}>↺</button>
             <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
             <button onClick={() => rotarCara(axis, index, true)} style={buttonStyle}>↻</button>
+          </div>
+        ))}
+
+        {[
+          ['x', 0, colors.left],
+          ['y', 0, colors.bottom],
+          ['z', 0, colors.back]
+        ].map(([axis, index, color]) => (
+          <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
+            <button onClick={() => rotarCara(axis, index, true)} style={buttonStyle}>↺</button>
+            <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
+            <button onClick={() => rotarCara(axis, index, false)} style={buttonStyle}>↻</button>
           </div>
         ))}
       </div>
