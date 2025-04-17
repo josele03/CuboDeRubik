@@ -51,6 +51,8 @@ const Juego = () => {
   const { colorMode } = useColorMode();
   if (!colorMode) return null;
   const containerRef = useRef();
+  const cameraRef = useRef();
+  const controlsRef = useRef();
   const cubeRefs = useRef([]);
   const cubeGroup = useRef();
   const sceneRef = useRef();
@@ -71,12 +73,9 @@ const Juego = () => {
     sceneRef.current = scene;
     scene.background = new THREE.Color(colorMode === 'dark' ? '#111111' : '#ffffff');
 
-
-
-
-
     const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
     camera.position.set(0, 0, 6);
+    cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -88,6 +87,7 @@ const Juego = () => {
     controls.panSpeed = 0.8;
     controls.staticMoving = true;
     controls.dynamicDampingFactor = 0.3;
+    controlsRef.current = controls;
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
     scene.add(ambientLight);
@@ -97,6 +97,9 @@ const Juego = () => {
 
     const cubeSize = 1;
     cubeGroup.current = crearCuboCompleto(cubeSize, spacing, colors, cubeRefs.current);
+    cubeGroup.current.rotation.set(0, 0, 0); // Asegura que arranca sin rotación
+    cubeGroup.current.userData.initialRotation = cubeGroup.current.rotation.clone();
+
     scene.add(cubeGroup.current);
 
     const render = () => {
@@ -200,8 +203,203 @@ const Juego = () => {
       cubeGroup.current = crearCuboCompleto(1, spacing, colors, cubeRefs.current);
       scene.add(cubeGroup.current);
     }
+  }; 
+  /*
+  const orientarVistaACara = (colorHex) => {
+    const posiciones = {
+      [colors.front]: { pos: new THREE.Vector3(0, 0, 6), up: new THREE.Vector3(0, 1, 0) },
+      [colors.back]: { pos: new THREE.Vector3(0, 0, -6), up: new THREE.Vector3(0, 1, 0) },
+      [colors.right]: { pos: new THREE.Vector3(6, 0, 0), up: new THREE.Vector3(0, 1, 0) },
+      [colors.left]: { pos: new THREE.Vector3(-6, 0, 0), up: new THREE.Vector3(0, 1, 0) },
+      [colors.top]: { pos: new THREE.Vector3(0, 6, 0), up: new THREE.Vector3(0, 0, -1) },
+      [colors.bottom]: { pos: new THREE.Vector3(0, -6, 0), up: new THREE.Vector3(0, 0, 1) },
+    };
+  
+    const opuestas = {
+      [colors.front]: colors.back,
+      [colors.back]: colors.front,
+      [colors.left]: colors.right,
+      [colors.right]: colors.left,
+      [colors.top]: colors.bottom,
+      [colors.bottom]: colors.top,
+    };
+  
+    const destino = posiciones[colorHex];
+    if (!destino) return;
+  
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    controls.enabled = false;
+  
+    const duracion = 450;
+    const easeInOutCubic = (t) =>
+      t < 0.5
+        ? 4 * t * t * t
+        : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  
+    const animarCamara = (fromPos, toPos, fromUp, toUp, callback) => {
+      const startTime = performance.now();
+  
+      const animate = (time) => {
+        const t = Math.min((time - startTime) / duracion, 1);
+        const eased = easeInOutCubic(t);
+  
+        camera.position.lerpVectors(fromPos, toPos, eased);
+        camera.up.lerpVectors(fromUp, toUp, eased);
+        camera.lookAt(0, 0, 0);
+  
+        if (t < 1) {
+          requestAnimationFrame(animate);
+        } else {
+          callback?.();
+        }
+      };
+  
+      requestAnimationFrame(animate);
+    };
+  
+    const destinoColor = colorHex;
+    const caraActual = Object.entries(posiciones).find(([k, { pos }]) =>
+      Math.abs(camera.position.clone().normalize().dot(pos.clone().normalize()) - 1) < 0.01
+    )?.[0];
+  
+    const currentPos = camera.position.clone();
+    const currentUp = camera.up.clone();
+    const targetPos = destino.pos;
+    const targetUp = destino.up;
+  
+    const esOpuesta = opuestas[caraActual] === destinoColor;
+  
+    if (esOpuesta) {
+      // buscar una cara intermedia perpendicular a ambas
+      const intermediaPos = currentPos.clone().cross(targetPos).normalize().multiplyScalar(6);
+      const intermediaUp = new THREE.Vector3(0, 1, 0); // estándar
+  
+      animarCamara(currentPos, intermediaPos, currentUp, intermediaUp, () => {
+        animarCamara(intermediaPos, targetPos, intermediaUp, targetUp, () => {
+          controls.enabled = true;
+          controls.update();
+        });
+      });
+    } else {
+      animarCamara(currentPos, targetPos, currentUp, targetUp, () => {
+        controls.enabled = true;
+        controls.update();
+      });
+    }
   };
+  */
+  
 
+  const animarCamara = (fromPos, toPos, fromUp, toUp, duracion, callback) => {
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    const startTime = performance.now();
+  
+    const easeInOutCubic = (t) =>
+      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  
+    const animate = (time) => {
+      const t = Math.min((time - startTime) / duracion, 1);
+      const eased = easeInOutCubic(t);
+  
+      camera.position.lerpVectors(fromPos, toPos, eased);
+      camera.up.lerpVectors(fromUp, toUp, eased);
+      camera.lookAt(0, 0, 0);
+  
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        callback?.();
+      }
+    };
+  
+    requestAnimationFrame(animate);
+  };
+  
+  const orientarVistaACara = (colorHex) => {
+    const posiciones = {
+      [colors.front]: { pos: new THREE.Vector3(0, 0, 6), up: new THREE.Vector3(0, 1, 0) },
+      [colors.back]: { pos: new THREE.Vector3(0, 0, -6), up: new THREE.Vector3(0, 1, 0) },
+      [colors.right]: { pos: new THREE.Vector3(6, 0, 0), up: new THREE.Vector3(0, 1, 0) },
+      [colors.left]: { pos: new THREE.Vector3(-6, 0, 0), up: new THREE.Vector3(0, 1, 0) },
+      [colors.top]: { pos: new THREE.Vector3(0, 6, 0), up: new THREE.Vector3(0, 0, -1) },
+      [colors.bottom]: { pos: new THREE.Vector3(0, -6, 0), up: new THREE.Vector3(0, 0, 1) },
+    };
+  
+    const obtenerCaraFrontal = () => {
+      const camera = cameraRef.current;
+      const direccion = new THREE.Vector3();
+      camera.getWorldDirection(direccion);
+  
+      const normales = {
+        front: new THREE.Vector3(0, 0, -1),
+        back: new THREE.Vector3(0, 0, 1),
+        right: new THREE.Vector3(-1, 0, 0),
+        left: new THREE.Vector3(1, 0, 0),
+        top: new THREE.Vector3(0, -1, 0),
+        bottom: new THREE.Vector3(0, 1, 0),
+      };
+  
+      let mejorCara = null;
+      let mayorDot = -Infinity;
+  
+      for (const [cara, normal] of Object.entries(normales)) {
+        const dot = direccion.dot(normal);
+        if (dot > mayorDot) {
+          mayorDot = dot;
+          mejorCara = cara;
+        }
+      }
+  
+      return mejorCara;
+    };
+  
+    const destino = posiciones[colorHex];
+    if (!destino) return;
+  
+    const camera = cameraRef.current;
+    const controls = controlsRef.current;
+    controls.enabled = false;
+  
+    const caraActual = obtenerCaraFrontal();
+  
+    const transicionOpuesta = () => {
+      if ((caraActual === 'front' && colorHex === colors.back) || (caraActual === 'back' && colorHex === colors.front)) {
+        return colors.right;
+      }
+      if ((caraActual === 'right' && colorHex === colors.left) || (caraActual === 'left' && colorHex === colors.right)) {
+        return colors.top;
+      }
+      if ((caraActual === 'top' && colorHex === colors.bottom) || (caraActual === 'bottom' && colorHex === colors.top)) {
+        return colors.front;
+      }
+      return null;
+    };
+  
+    const startPos = camera.position.clone();
+    const startUp = camera.up.clone();
+    const targetPos = destino.pos;
+    const targetUp = destino.up;
+  
+    const intermedia = transicionOpuesta();
+  
+    const duracion = 1500;
+  
+    if (intermedia) {
+      const inter = posiciones[intermedia];
+      animarCamara(startPos, inter.pos, startUp, inter.up, duracion, () => {
+        orientarVistaACara(colorHex); // llamada recursiva ahora sí, tras terminar la animación
+      });
+    } else {
+      animarCamara(startPos, targetPos, startUp, targetUp, duracion, () => {
+        controls.enabled = true;
+        controls.update();
+      });
+    }
+  };
+  
+  
 
   const colorToCss = hex => `#${hex.toString(16).padStart(6, '0')}`;
   const buttonStyle = {
@@ -264,7 +462,14 @@ const Juego = () => {
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
             <button onClick={() => { stopShuffle(); rotarCara(axis, index, false); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
-            <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
+            <button
+              style={{ ...buttonStyle, backgroundColor: colorToCss(color) }}
+              onClick={() => {
+                stopShuffle();
+                orientarVistaACara(color);
+              }}
+            />
+
             <button onClick={() => { stopShuffle(); rotarCara(axis, index, true); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
           </div>
         ))}
@@ -276,7 +481,13 @@ const Juego = () => {
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
             <button onClick={() => { stopShuffle(); rotarCara(axis, index, true); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
-            <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
+            <button
+              style={{ ...buttonStyle, backgroundColor: colorToCss(color) }}
+              onClick={() => {
+                stopShuffle();
+                orientarVistaACara(color);
+              }}
+            />
             <button onClick={() => { stopShuffle(); rotarCara(axis, index, false); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
           </div>
         ))}
