@@ -138,10 +138,6 @@ const config = {
                 label: 'Plantilla',
                 href: 'https://github.com/facebook/docusaurus'
               },
-              {
-                label: 'Modelo interactivo del Cubo de Rubik',
-                href: 'https://github.com/JithuTholoor/RubixCube',
-              },
             ],
           },
         ],
