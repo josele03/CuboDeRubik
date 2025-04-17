@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useColorMode } from '@docusaurus/theme-common';
 import * as THREE from 'three';
 import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
@@ -47,6 +47,7 @@ const crearCuboCompleto = (size, spacing, colors, cubeRefs) => {
 };
 
 const Juego = () => {
+  const [shuffling, setShuffling] = useState(false);
   const { colorMode } = useColorMode();
   const containerRef = useRef();
   const cubeRefs = useRef([]);
@@ -125,21 +126,70 @@ const Juego = () => {
     scene.add(tempGroup);
 
     const ejes = { x: new THREE.Vector3(1, 0, 0), y: new THREE.Vector3(0, 1, 0), z: new THREE.Vector3(0, 0, 1) };
-    const angulo = (Math.PI / 2) * (sentidoHorario ? -1 : 1);
-    tempGroup.rotateOnAxis(ejes[axis], angulo);
+    const eje = ejes[axis];
+    const anguloObjetivo = (Math.PI / 2) * (sentidoHorario ? -1 : 1);
+    let anguloActual = 0;
+    const duracion = 300;
+    const inicio = performance.now();
 
-    cubos.forEach(cubo => {
-      scene.attach(cubo);
-      cubeGroup.current.attach(cubo);
+    const animar = (tiempo) => {
+      const progreso = Math.min((tiempo - inicio) / duracion, 1);
+      const anguloInterpolado = anguloObjetivo * progreso;
+      const delta = anguloInterpolado - anguloActual;
+      tempGroup.rotateOnAxis(eje, delta);
+      anguloActual = anguloInterpolado;
 
-      const pos = cubo.position.clone().divideScalar(spacing).round();
-      cubo.position.set(pos.x * spacing, pos.y * spacing, pos.z * spacing);
-      cubo.userData.coords = { x: pos.x, y: pos.y, z: pos.z };
-      cubo.updateMatrixWorld();
-    });
+      if (progreso < 1) {
+        requestAnimationFrame(animar);
+      } else {
+        cubos.forEach(cubo => {
+          scene.attach(cubo);
+          cubeGroup.current.attach(cubo);
+          const pos = cubo.position.clone().divideScalar(spacing).round();
+          cubo.position.set(pos.x * spacing, pos.y * spacing, pos.z * spacing);
+          cubo.userData.coords = { x: pos.x, y: pos.y, z: pos.z };
+          cubo.updateMatrixWorld();
+        });
+        scene.remove(tempGroup);
+      }
+    };
 
-    scene.remove(tempGroup);
+    requestAnimationFrame(animar);
   };
+  const shuffleInterval = useRef(null);
+  const isShuffling = useRef(false);
+
+  const stopShuffle = () => {
+    if (isShuffling.current) {
+      clearInterval(shuffleInterval.current);
+      isShuffling.current = false;
+      setShuffling(false);
+    }
+  };
+
+  const shuffle = () => {
+    if (isShuffling.current) {
+      clearInterval(shuffleInterval.current);
+      isShuffling.current = false;
+      setShuffling(false);
+      return;
+    }
+
+    isShuffling.current = true;
+    setShuffling(true);
+    const caras = [
+      ['x', 0], ['x', 2],
+      ['y', 0], ['y', 2],
+      ['z', 0], ['z', 2]
+    ];
+
+    shuffleInterval.current = setInterval(() => {
+      const [axis, index] = caras[Math.floor(Math.random() * caras.length)];
+      const sentido = Math.random() > 0.5;
+      rotarCara(axis, index, sentido);
+    }, 750);
+  };
+
 
   const colorToCss = hex => `#${hex.toString(16).padStart(6, '0')}`;
   const buttonStyle = {
@@ -201,9 +251,9 @@ const Juego = () => {
           ['y', 2, colors.top],
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
-            <button onClick={() => rotarCara(axis, index, false)} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
+            <button onClick={() => { stopShuffle(); rotarCara(axis, index, false); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
             <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
-            <button onClick={() => rotarCara(axis, index, true)} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
+            <button onClick={() => { stopShuffle(); rotarCara(axis, index, true); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
           </div>
         ))}
 
@@ -213,11 +263,28 @@ const Juego = () => {
           ['z', 0, colors.back]
         ].map(([axis, index, color]) => (
           <div style={{ display: 'flex', gap: '1rem' }} key={`${axis}${index}`}>
-            <button onClick={() => rotarCara(axis, index, true)} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
+            <button onClick={() => { stopShuffle(); rotarCara(axis, index, true); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↺</button>
             <button style={{ ...buttonStyle, backgroundColor: colorToCss(color) }} />
-            <button onClick={() => rotarCara(axis, index, false)} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
+            <button onClick={() => { stopShuffle(); rotarCara(axis, index, false); }} style={{ ...buttonStyle, backgroundColor: "none" }}>↻</button>
           </div>
         ))}
+
+        <button
+          onClick={shuffle}
+          style={{
+            marginTop: '2rem',
+            padding: '1rem',
+            fontSize: '16px',
+            border: `2px solid ${colorMode === 'dark' ? 'white' : 'black'}`,
+            borderRadius: '12px',
+            backgroundColor: 'transparent',
+            color: colorMode === 'dark' ? 'white' : 'black',
+            cursor: 'pointer'
+          }}
+        >
+          {shuffling ? "Detener" : "Revolver Cubo"}
+        </button>
+
       </div>
     </div>
   );
