@@ -138,6 +138,10 @@ const config = {
                 label: 'Plantilla',
                 href: 'https://github.com/facebook/docusaurus'
               },
+              {
+                label: 'Proceso Log-in',
+                href: 'https://firebase.google.com/docs/auth?hl=es-419'
+              },
             ],
           },
         ],
