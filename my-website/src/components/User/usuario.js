@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import { auth } from '../../lib/firebase';
 import { useHistory } from '@docusaurus/router';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
  
 export default function Usuario() {
   const [usuario, setUsuario] = useState(null);

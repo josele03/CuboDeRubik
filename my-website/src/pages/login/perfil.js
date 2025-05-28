@@ -2,6 +2,9 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import Usuario from '../../components/User/usuario';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+
 
 
 export default function Perfil() {

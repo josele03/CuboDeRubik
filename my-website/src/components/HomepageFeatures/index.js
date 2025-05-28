@@ -35,7 +35,7 @@ const FeatureList = [
         desde los grupos de permutaciones hasta la notación de movimientos.
       </>
     ),
-    link: '/base_mate',
+    link: '/base_mate/introBM',
   },
 ];
 

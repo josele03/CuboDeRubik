@@ -43,10 +43,6 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          //editUrl:
-            //'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
           showReadingTime: true,
@@ -54,11 +50,6 @@ const config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          //editUrl:
-            //'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
           onUntruncatedBlogPosts: 'warn',
@@ -69,6 +60,19 @@ const config = {
       }),
     ],
   ],
+  
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'base-mate',                           // Identificador único del plugin
+        path: 'base-mate',                         // Carpeta de documentos
+        routeBasePath: 'base_mate',                // Ruta pública (/base_mate)
+        sidebarPath: require.resolve('./sidebarBM.js'), // Tu archivo de sidebar
+      },
+    ],
+  ],
+  
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -89,7 +93,7 @@ const config = {
             position: 'left',
             label: 'Tutorial',
           },
-          {to: '/base_mate', label: 'Base Matemática', position: 'left'},
+          {to: '/base_mate/introBM', label: 'Base Matemática', position: 'left'},
           {to: '/login/registro', label: 'Registrarse', position: 'right'},
           {to: '/login/inicio-sesion', label: 'Iniciar sesión', position: 'right'},
         ],
@@ -102,7 +106,7 @@ const config = {
             items: [
               {
                 label: 'Base Matemática',
-                to: '/base_mate',
+                to: '/base_mate/introBM',
               },
               {
                 label: 'Tutorial',
@@ -134,12 +138,12 @@ const config = {
           {
             title: 'Créditos',
             items: [
-              {
+              { 
                 label: 'Plantilla',
                 href: 'https://github.com/facebook/docusaurus'
               },
               {
-                label: 'Proceso Log-in',
+                label: 'Proceso Log-in y Base de Datos',
                 href: 'https://firebase.google.com/docs/auth?hl=es-419'
               },
             ],
