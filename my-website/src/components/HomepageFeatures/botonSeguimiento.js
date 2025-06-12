@@ -65,7 +65,7 @@ export default function BotonSeguimiento() {
         disabled={estado}
         style={{
           backgroundColor: estado ? '#ccc' : 'var(--ifm-color-primary)',
-          color: '#fff',
+          color: estado ? 'black' : 'white',
           border: 'none',
           borderRadius: '5px',
           padding: '10px 20px',

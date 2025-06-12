@@ -31,7 +31,7 @@ const sidebars = {
       {
         type: 'doc',
         id: 'punto5', 
-        label: 'Estructura del Grupo de Rubik',
+        label: 'Estructura del Grupo de Rubik y subgrupos',
       },
     ],
   };
